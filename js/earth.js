@@ -1,7 +1,7 @@
 // Created by Bjorn Sandvik - thematicmapping.org
 (function () {
 
-	var webglEl = document.getElementById('webgl');
+	var webglEl = document.getElementById('earth-section');
 
 	if (!Detector.webgl) {
 		Detector.addGetWebGLMessage(webglEl);
@@ -50,7 +50,8 @@
 	function render() {
 		controls.update();
 		sphere.rotation.y += 0.0005;
-		clouds.rotation.y += 0.0005;		
+		clouds.rotation.y += 0.0010;
+
 		requestAnimationFrame(render);
 		renderer.render(scene, camera);
 	}
