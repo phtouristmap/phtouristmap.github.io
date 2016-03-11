@@ -156,7 +156,7 @@ THREEx.Planets.createSaturn	= function(){
 		bumpScale: 0.05,
 	})
 	var mesh	= new THREE.Mesh(geometry, material)
-	return mesh	
+	return mesh
 }
 
 

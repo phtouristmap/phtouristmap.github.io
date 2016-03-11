@@ -20,6 +20,7 @@
 <div id="1"></div>
 <script src="/js/three.js"></script>
 <script src="/js/threex.planets.js"></script>
+<script type="text/javascript" src="http://cdn.rawgit.com/bubblin/The-Solar-System/master/js/shared/xRingGeometry.js"></script>
 <!--<script src="/js/threex.atmospherematerial.js"></script>-->
 <!--<script src="/js/threex.atmospheredatgui.js"></script>-->
 <!--<script src="/js/dat.gui.min.js"></script>-->
@@ -36,7 +37,7 @@
     var updateFcts	= [];
     var scene	= new THREE.Scene();
     var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 100 );
-    camera.position.z = 10;
+    camera.position.z = 20;
 
     var light	= new THREE.AmbientLight( 0x888888 )
     scene.add( light )
@@ -75,66 +76,104 @@
 //set position
 
     var meshSun	= THREEx.Planets.createSun()
-    meshSun.position.set( 0, 0, 0 )
+    meshSun.position.set(-7.5, 0, 0)
     scene.add(meshSun)
 
     var meshMecury	= THREEx.Planets.createMercury()
+    meshMecury.position.set( -6.0, 0, 0 )
+    scene.add(meshMecury)
 
-    scene.add(mesh)
+    var meshVenus	= THREEx.Planets.createVenus()
+    meshVenus.position.set( -4.5, 0, 0 )
+    scene.add(meshVenus)
 
-//    var meshVenus	= THREEx.Planets.createVenus()
-//    scene.add(meshVenus)
-//
-//    var meshMoon = THREEx.Planets.createMoon()
-//    scene.add(meshMoon)
-//
-//    var earthMesh	= THREEx.Planets.createEarth()
-//    scene.add(earthMesh)
-//    var meshCloud	= THREEx.Planets.createEarthCloud()
-//    scene.add(meshCloud)
-//    updateFcts.push(function(delta, now){
-//    meshCloud.rotation.y += 1/8 * delta;
-//    })
-//
-//    var meshMars	= THREEx.Planets.createMars()
-//    scene.add(meshMars)
-//
-//    var meshJupiter	= THREEx.Planets.createJupiter()
-//    scene.add(meshJupiter)
-//
-//    var meshSaturn	= THREEx.Planets.createSaturn()
-//    mesh.receiveShadow	= true
-//    mesh.castShadow		= true
-//    scene.add(meshSaturn)
-//
-//    var meshSaturnRing	= THREEx.Planets.createSaturnRing()
-//    mesh.receiveShadow	= true
-//    mesh.castShadow		= true
-//    scene.add(meshSaturnRing)
-//
-//    var meshUranus	= THREEx.Planets.createUranus()
-//    mesh.receiveShadow	= true
-//    mesh.castShadow		= true
-//    scene.add(meshUranus)
-//
-//    var meshUranusRing	= THREEx.Planets.createUranusRing()
-//    mesh.receiveShadow	= true
-//    mesh.castShadow		= true
-//    scene.add(meshUranusRing)
-//
-//    var meshNepture	= THREEx.Planets.createNeptune()
-//    scene.add(meshNepture)
-//
-//    var meshPluto	= THREEx.Planets.createPluto()
-//    scene.add(meshPluto)
-//
-//    updateFcts.push(function(delta, now){
-//        meshVenus.rotation.x += 1 * delta;
-//        meshVenus.rotation.y += 1/2 * delta;
-//
-//        meshMoon.rotation.x += 1 * delta;
-//        meshMoon.rotation.y += 1/2 * delta;
-//    })
+    var meshMoon = THREEx.Planets.createMoon()
+    meshMoon.position.set( -3.0, 0, 0 )
+    scene.add(meshMoon)
+
+    var meshEarth	= THREEx.Planets.createEarth()
+    meshEarth.position.set( -1.5, 0, 0 )
+    scene.add(meshEarth)
+
+    var meshCloud	= THREEx.Planets.createEarthCloud()
+    meshCloud.position.set( -1.5, 0, 0 )
+    scene.add(meshCloud)
+
+    var meshMars	= THREEx.Planets.createMars()
+    meshMars.position.set( 0, 0, 0 )
+    scene.add(meshMars)
+
+    var meshJupiter	= THREEx.Planets.createJupiter()
+    meshJupiter.position.set( 1.5, 0, 0 )
+    scene.add(meshJupiter)
+
+    var meshSaturn = THREEx.Planets.createSaturn()
+    meshSaturn.position.set( 3.0, 0, 0 )
+    scene.add(meshSaturn)
+
+    var meshSaturnRing = THREEx.Planets.createSaturnRing()
+    meshSaturnRing.position.set( 3.0, 0, 0 )
+    scene.add(meshSaturnRing)
+
+    var meshUranus = THREEx.Planets.createUranus()
+    meshUranus.position.set( 4.5, 0, 0 )
+    scene.add(meshUranus)
+
+    var meshUranusRing = THREEx.Planets.createUranusRing()
+    meshUranusRing.position.set( 4.5, 0, 0 )
+    scene.add(meshUranusRing)
+
+
+    var meshNeptune	= THREEx.Planets.createNeptune()
+    meshNeptune.position.set( 6.0, 0, 0 )
+    scene.add(meshNeptune)
+
+    var meshPluto	= THREEx.Planets.createPluto()
+    meshPluto.position.set( 7.5, 0, 0 )
+    scene.add(meshPluto)
+
+    updateFcts.push(function(delta){
+        meshSun.rotation.x += 1 * delta;
+        meshSun.rotation.y += 1/2 * delta;
+
+        meshMecury.rotation.x += 1 * delta;
+        meshMecury.rotation.y += 1/2 * delta;
+
+        meshVenus.rotation.x += 1 * delta;
+        meshVenus.rotation.y += 1/2 * delta;
+
+        meshMoon.rotation.x += 1 * delta;
+        meshMoon.rotation.y += 1/2 * delta;
+
+        meshEarth.rotation.x += 1 * delta;
+        meshEarth.rotation.y += 1/2 * delta;
+
+        meshCloud.rotation.y += 1/8 * delta;
+
+        meshMars.rotation.x += 1 * delta;
+        meshMars.rotation.y += 1/2 * delta;
+
+        meshJupiter.rotation.x += 1 * delta;
+        meshJupiter.rotation.y += 1/2 * delta;
+
+        meshSaturn.rotation.x += 1 * delta;
+        meshSaturn.rotation.y += 1/2 * delta;
+
+        meshSaturnRing.rotation.x += 1 * delta;
+        meshSaturnRing.rotation.y += 1/2 * delta;
+
+        meshUranus.rotation.x += 1 * delta;
+        meshUranus.rotation.y += 1/2 * delta;
+
+        meshUranusRing.rotation.x += 1 * delta;
+        meshUranusRing.rotation.y += 1/2 * delta;
+
+        meshNeptune.rotation.x += 1 * delta;
+        meshNeptune.rotation.y += 1/2 * delta;
+
+        meshPluto.rotation.x += 1 * delta;
+        meshPluto.rotation.y += 1/2 * delta;
+    })
 
     //////////////////////////////////////////////////////////////////////////////////
     //		Camera Controls							//
