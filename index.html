@@ -7,53 +7,173 @@
     <meta charset=utf-8>
     <title>My first Three.js app</title>
     <style>
-        body { margin: 0; }
-        canvas { width: 100%; height: 100% }
+        body {
+            margin: 0px;
+            background-color: #000000;
+            overflow: hidden;
+        }
+        /*canvas { width: 100%; height: 100% }*/
     </style>
 </head>
 <body>
 
-</embed>
-<script src="http://threejs.org/build/three.min.js"></script>
+<div id="1"></div>
+<script src="/js/three.js"></script>
+<script src="/js/threex.planets.js"></script>
+<!--<script src="/js/threex.atmospherematerial.js"></script>-->
+<!--<script src="/js/threex.atmospheredatgui.js"></script>-->
+<!--<script src="/js/dat.gui.min.js"></script>-->
+
 <script>
 
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-    var renderer = new THREE.WebGLRenderer();
+    var renderer	= new THREE.WebGLRenderer({
+        antialias	: true
+    });
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
-    var geometry = new THREE.BoxGeometry( 3, 3, 3 );
-    var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    var cube = new THREE.Mesh( geometry, material );
-    scene.add( cube );
+    renderer.shadowMapEnabled	= true
 
-    var stars = createStars(90, 64);
-    scene.add(stars);
-    function createStars(radius, segments) {
-        return new THREE.Mesh(
-                new THREE.SphereGeometry(radius, segments, segments),
-                new THREE.MeshBasicMaterial({
-                    map:  THREE.ImageUtils.loadTexture('/img/bg-star.jpg'),
-                    side: THREE.BackSide
-                })
-        );
-    }
+    var updateFcts	= [];
+    var scene	= new THREE.Scene();
+    var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 100 );
+    camera.position.z = 10;
 
-    camera.position.z = 5;
+    var light	= new THREE.AmbientLight( 0x888888 )
+    scene.add( light )
+    var light	= new THREE.DirectionalLight( 'white', 1)
+    light.position.set(5,5,5)
+    light.target.position.set( 0, 0, 0 )
+    scene.add( light )
 
-    var render = function(){
-        requestAnimationFrame( render );
+    var light	= new THREE.DirectionalLight( 0xcccccc, 1 )
+    light.position.set(5,5,5)
+    scene.add( light )
+    light.castShadow	= true
+    light.shadowCameraNear	= 0.01
+    light.shadowCameraFar	= 15
+    light.shadowCameraFov	= 45
 
-        cube.rotation.x += 0.01
-        cube.rotation.y +=0.01
+    light.shadowCameraLeft	= -1
+    light.shadowCameraRight	=  1
+    light.shadowCameraTop	=  1
+    light.shadowCameraBottom= -1
+    // light.shadowCameraVisible	= true
 
+    light.shadowBias	= 0.001
+    light.shadowDarkness	= 0.2
+//
+//    light.shadowMapWidth	= 1024
+//    light.shadowMapHeight	= 1024
+
+    //    var starSphere	= THREEx.Planets.createStarfield()
+    //    scene.add(starSphere)
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //		add an object and make it move					//
+    //////////////////////////////////////////////////////////////////////////////////
+
+//set position
+
+    var meshSun	= THREEx.Planets.createSun()
+    meshSun.position.set( 0, 0, 0 )
+    scene.add(meshSun)
+
+    var meshMecury	= THREEx.Planets.createMercury()
+
+    scene.add(mesh)
+
+//    var meshVenus	= THREEx.Planets.createVenus()
+//    scene.add(meshVenus)
+//
+//    var meshMoon = THREEx.Planets.createMoon()
+//    scene.add(meshMoon)
+//
+//    var earthMesh	= THREEx.Planets.createEarth()
+//    scene.add(earthMesh)
+//    var meshCloud	= THREEx.Planets.createEarthCloud()
+//    scene.add(meshCloud)
+//    updateFcts.push(function(delta, now){
+//    meshCloud.rotation.y += 1/8 * delta;
+//    })
+//
+//    var meshMars	= THREEx.Planets.createMars()
+//    scene.add(meshMars)
+//
+//    var meshJupiter	= THREEx.Planets.createJupiter()
+//    scene.add(meshJupiter)
+//
+//    var meshSaturn	= THREEx.Planets.createSaturn()
+//    mesh.receiveShadow	= true
+//    mesh.castShadow		= true
+//    scene.add(meshSaturn)
+//
+//    var meshSaturnRing	= THREEx.Planets.createSaturnRing()
+//    mesh.receiveShadow	= true
+//    mesh.castShadow		= true
+//    scene.add(meshSaturnRing)
+//
+//    var meshUranus	= THREEx.Planets.createUranus()
+//    mesh.receiveShadow	= true
+//    mesh.castShadow		= true
+//    scene.add(meshUranus)
+//
+//    var meshUranusRing	= THREEx.Planets.createUranusRing()
+//    mesh.receiveShadow	= true
+//    mesh.castShadow		= true
+//    scene.add(meshUranusRing)
+//
+//    var meshNepture	= THREEx.Planets.createNeptune()
+//    scene.add(meshNepture)
+//
+//    var meshPluto	= THREEx.Planets.createPluto()
+//    scene.add(meshPluto)
+//
+//    updateFcts.push(function(delta, now){
+//        meshVenus.rotation.x += 1 * delta;
+//        meshVenus.rotation.y += 1/2 * delta;
+//
+//        meshMoon.rotation.x += 1 * delta;
+//        meshMoon.rotation.y += 1/2 * delta;
+//    })
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //		Camera Controls							//
+    //////////////////////////////////////////////////////////////////////////////////
+    //    var mouse	= {x : 0, y : 0}
+    //    document.addEventListener('mousemove', function(event){
+    //        mouse.x	= (event.clientX / window.innerWidth ) - 0.5
+    //        mouse.y	= (event.clientY / window.innerHeight) - 0.5
+    //    }, false)
+    //    updateFcts.push(function(delta, now){
+    //        camera.position.x += (mouse.x*5 - camera.position.x) * (delta*3)
+    //        camera.position.y += (mouse.y*5 - camera.position.y) * (delta*3)
+    //        camera.lookAt( scene.position )
+    //    })
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //		render the scene						//
+    //////////////////////////////////////////////////////////////////////////////////
+    updateFcts.push(function(){
         renderer.render( scene, camera );
-    };
+    })
 
-    render()
-
-
+    //////////////////////////////////////////////////////////////////////////////////
+    //		loop runner							//
+    //////////////////////////////////////////////////////////////////////////////////
+    var lastTimeMsec= null
+    requestAnimationFrame(function animate(nowMsec){
+        // keep looping
+        requestAnimationFrame( animate );
+        // measure time
+        lastTimeMsec	= lastTimeMsec || nowMsec-1000/60
+        var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec)
+        lastTimeMsec	= nowMsec
+        // call each update function
+        updateFcts.forEach(function(updateFn){
+            updateFn(deltaMsec/1000, nowMsec/1000)
+        })
+    })
 </script>
 </body>
 </html>
